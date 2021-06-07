@@ -9,16 +9,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WarAndPeace.Infrastructure.IoC\WarAndPeace.Infrastructure.IoC.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Update="2600-0.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Middleware\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarAndPeace.Application\WarAndPeace.Application.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\WarAndPeace.Infrastructure.IoC\WarAndPeace.Infrastructure.IoC.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
