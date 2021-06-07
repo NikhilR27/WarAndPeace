@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WarAndPeace.API.Middleware;
 using WarAndPeace.Infrastructure.IoC;
 
 namespace WarAndPeace.API
@@ -37,6 +38,8 @@ namespace WarAndPeace.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WarAndPeace.API v1"));
             }
+
+            app.UseResponseTimeMiddleware();
 
             app.UseHttpsRedirection();
 
