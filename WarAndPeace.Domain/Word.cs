@@ -4,12 +4,12 @@ namespace WarAndPeace.Domain
     public class Word
     {
         public readonly string Text;
-        public readonly int WordCount;
+        public readonly int Count;
 
-        public Word(string text, int wordCount)
+        public Word(string text, int count)
         {
             Text = text;
-            WordCount = wordCount;
+            Count = count;
         }
     }
 }

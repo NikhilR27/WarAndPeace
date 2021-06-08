@@ -19,7 +19,6 @@
     },
     "WarAndPeace.API": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:49864;http://localhost:22749",
       "environmentVariables": {

@@ -22,7 +22,7 @@ namespace WarAndPeace.Infrastructure.Data
 
         public IList<KeyValuePair<string, int>> GetBookWords(Func<KeyValuePair<string, int>, bool> filter, int? numberOfWords)
         {
-            return numberOfWords.HasValue ? words.Where(filter).Take((int)numberOfWords).ToList() : words.Where(filter).ToList(); 
+            return numberOfWords.HasValue ? words.Where(filter).Take((int) numberOfWords).ToList() : words.Where(filter).ToList(); 
         }
 
         // Private methods
@@ -55,7 +55,7 @@ namespace WarAndPeace.Infrastructure.Data
             // Lower invariant to count accurately
             // Regex is around 8 times slower than string.Replace
 
-            char[] symbolsToRemove = new char[] { ';', ':', '/', '.', '"', '*', '\n', '\r', '\t' };
+            char[] symbolsToRemove = new char[] { ',',';', ':', '/', '.', '"', '*', '”', '\n', '\r', '\t' };
             string text = dirtyText.ToLower();
 
             foreach (var symbol in symbolsToRemove)
@@ -92,7 +92,7 @@ namespace WarAndPeace.Infrastructure.Data
 
         private static IList<KeyValuePair<string, int>> SortDictionary(IList<KeyValuePair<string, int>> list)
         {
-            return list.OrderByDescending(l => l.Value).Take(100).ToList();
+            return list.OrderByDescending(l => l.Value).ToList();
         }
 
     }

@@ -8,7 +8,7 @@ namespace WarAndPeace.API.Middleware
 
     public class ResponseTimeMiddleware
     {
-        private const string RESPONSE_HEADER_RESPONSE_TIME = "X-Response-Time-ticks";
+        private const string RESPONSE_HEADER_RESPONSE_TIME = "X-Response-Time";
         private readonly RequestDelegate _next;
 
         public ResponseTimeMiddleware(RequestDelegate next)
@@ -17,7 +17,6 @@ namespace WarAndPeace.API.Middleware
         }
         public Task InvokeAsync(HttpContext context)
         {
-            // Start the Timer using Stopwatch  
             var watch = new Stopwatch();
             watch.Start();
             context.Response.OnStarting(() =>

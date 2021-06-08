@@ -4,7 +4,7 @@ using WarAndPeace.Application.Interface;
 namespace WarAndPeace.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    //TODO Controller level routing pattern 
     public class WordsController : ControllerBase
     {
         private readonly IBookReaderService _bookReaderService;
@@ -14,19 +14,19 @@ namespace WarAndPeace.API.Controllers
             _bookReaderService = bookReaderService;
         }
 
-        [HttpGet("/all")]
+        [HttpGet("api/words")]
         public IActionResult GetWords()
         {
             return Ok(_bookReaderService.GetWords());
         }
 
-        [HttpGet("/top/{numberOfWords}")]
+        [HttpGet("api/words/top/{numberOfWords}")]
         public IActionResult GetTopXWords(int numberOfWords)
         {
             return Ok(_bookReaderService.GetTopXUsedWords(numberOfWords));
         }
 
-        [HttpGet("/top/{numberOfWords}/longerThan/{minLengthOfWords}")]
+        [HttpGet("api/words/top/{numberOfWords}/longerThan/{minLengthOfWords}")]
         public IActionResult GetTopXWordsLongerThanYLength(int numberOfWords, int minLengthOfWords)
         {
             return Ok(_bookReaderService.GetTopXUsedWordsLongerThanYChars(numberOfWords, minLengthOfWords));

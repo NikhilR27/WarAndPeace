@@ -1,0 +1,74 @@
+﻿@page "/"
+@inject HttpClientWrapper httpclient
+@using Newtonsoft.Json;
+
+<BlazorStrap.BSContainer>
+    <h1>Hello!</h1>
+    <h3>Welcome to War and Peace</h3>
+    <BlazorStrap.BSRow Class="p-3">
+        <BlazorStrap.BSCol XS="6" SM="4"><BlazorStrap.BSButton Color="BlazorStrap.Color.Primary" Size="BlazorStrap.Size.Medium" @onclick=@(async () => await GetWordCount(50))>Top 50 words</BlazorStrap.BSButton></BlazorStrap.BSCol>
+        <BlazorStrap.BSCol XS="6" SM="4"><label>Response Time: @(Convert.ToDecimal(ResponseTime / TimeSpan.TicksPerMillisecond)) ms</label></BlazorStrap.BSCol>
+        <BlazorStrap.BSCol SM="4"></BlazorStrap.BSCol>
+    </BlazorStrap.BSRow>
+    <BlazorStrap.BSRow Class="p-3">
+        <BlazorStrap.BSCol XS="6" SM="4"><BlazorStrap.BSButton Color="BlazorStrap.Color.Primary" Size="BlazorStrap.Size.Medium" @onclick=@(async () => await GetWordCount(50,6))>Top 50 words > 6 characters</BlazorStrap.BSButton></BlazorStrap.BSCol>
+        <BlazorStrap.BSCol XS="6" SM="4"><label>Response Time: @ResponseTime ticks</label></BlazorStrap.BSCol>
+        <BlazorStrap.BSCol SM="4"></BlazorStrap.BSCol>
+    </BlazorStrap.BSRow>
+    <BlazorStrap.BSRow Class="p-3">
+
+        @if (Words.Count != 0)
+        {
+            <table class="table" height="500px">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var word in Words)
+                    {
+                        <tr>
+                            <td>@word.Key</td>
+                            <td>@word.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </BlazorStrap.BSRow>
+</BlazorStrap.BSContainer>
+
+<br />
+
+@functions {
+
+    private List<KeyValuePair<string, string>> Words = new List<KeyValuePair<string, string>>();
+    private static ulong ResponseTime = 0;
+    private static decimal ResponseTimeMs = Convert.ToDecimal(ResponseTime / 10000);
+
+    private async Task GetWordCount(int topN, int? longerThan = 0)
+    {
+        Words.Clear();
+
+        string uriPart = GetRequestUri(topN, longerThan);
+        var response = await httpclient.GetResponse(HttpMethod.Get, uriPart);
+        Words = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(await response.Content.ReadAsStringAsync());
+        ResponseTime = ulong.Parse(response.Headers.GetValues("X-Response-Time").FirstOrDefault());
+
+        await InvokeAsync(() =>
+        {
+            base.StateHasChanged();
+        });
+    }
+
+    private static string GetRequestUri(int topN, int? longerThan)
+    {
+        string requestUriPart = $"words/top/{topN}";
+        if (longerThan.HasValue && longerThan > 0)
+            requestUriPart += ($"/longerThan/{longerThan}");
+        return requestUriPart;
+    }
+}
