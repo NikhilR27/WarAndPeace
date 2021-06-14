@@ -14,11 +14,13 @@ namespace WarAndPeace.API.Controllers
             _bookReaderService = bookReaderService;
         }
 
-        [HttpGet("api/words")]
-        public IActionResult GetWords()
-        {
-            return Ok(_bookReaderService.GetWords());
-        }
+        //TODO
+        // This method is not part of the requirement - pagination will need to be implemented for this method to work because the dataset is too large for the browser
+        //[HttpGet("/all")]
+        //public IActionResult GetWords()
+        //{
+        //    return Ok(_bookReaderService.GetWords());
+        //}
 
         [HttpGet("api/words/top/{numberOfWords}")]
         public IActionResult GetTopXWords(int numberOfWords)
